@@ -1,6 +1,7 @@
 # Change Log
 
 ## WIP
+- Bump API version to v1.2.165
 
 - Expose `resultString :: Result -> String`
 

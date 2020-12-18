@@ -872,34 +872,34 @@ instance Extensible SwapchainCreateInfo where
     | otherwise = Nothing
 
 instance (Extendss SwapchainCreateInfo es, PokeChain es) => ToCStruct (SwapchainCreateInfo es) where
-  withCStruct x f = allocaBytesAligned 56 8 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 64 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p SwapchainCreateInfo{..} f = evalContT $ do
     lift $ poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SWAPCHAIN_CREATE_INFO)
     next'' <- fmap castPtr . ContT $ withChain (next)
     lift $ poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) next''
     lift $ poke ((p `plusPtr` 16 :: Ptr SwapchainCreateFlags)) (createFlags)
-    lift $ poke ((p `plusPtr` 20 :: Ptr SwapchainUsageFlags)) (usageFlags)
-    lift $ poke ((p `plusPtr` 24 :: Ptr Int64)) (format)
-    lift $ poke ((p `plusPtr` 32 :: Ptr Word32)) (sampleCount)
-    lift $ poke ((p `plusPtr` 36 :: Ptr Word32)) (width)
-    lift $ poke ((p `plusPtr` 40 :: Ptr Word32)) (height)
-    lift $ poke ((p `plusPtr` 44 :: Ptr Word32)) (faceCount)
-    lift $ poke ((p `plusPtr` 48 :: Ptr Word32)) (arraySize)
-    lift $ poke ((p `plusPtr` 52 :: Ptr Word32)) (mipCount)
+    lift $ poke ((p `plusPtr` 24 :: Ptr SwapchainUsageFlags)) (usageFlags)
+    lift $ poke ((p `plusPtr` 32 :: Ptr Int64)) (format)
+    lift $ poke ((p `plusPtr` 40 :: Ptr Word32)) (sampleCount)
+    lift $ poke ((p `plusPtr` 44 :: Ptr Word32)) (width)
+    lift $ poke ((p `plusPtr` 48 :: Ptr Word32)) (height)
+    lift $ poke ((p `plusPtr` 52 :: Ptr Word32)) (faceCount)
+    lift $ poke ((p `plusPtr` 56 :: Ptr Word32)) (arraySize)
+    lift $ poke ((p `plusPtr` 60 :: Ptr Word32)) (mipCount)
     lift $ f
-  cStructSize = 56
+  cStructSize = 64
   cStructAlignment = 8
   pokeZeroCStruct p f = evalContT $ do
     lift $ poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SWAPCHAIN_CREATE_INFO)
     pNext' <- fmap castPtr . ContT $ withZeroChain @es
     lift $ poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) pNext'
-    lift $ poke ((p `plusPtr` 24 :: Ptr Int64)) (zero)
-    lift $ poke ((p `plusPtr` 32 :: Ptr Word32)) (zero)
-    lift $ poke ((p `plusPtr` 36 :: Ptr Word32)) (zero)
+    lift $ poke ((p `plusPtr` 32 :: Ptr Int64)) (zero)
     lift $ poke ((p `plusPtr` 40 :: Ptr Word32)) (zero)
     lift $ poke ((p `plusPtr` 44 :: Ptr Word32)) (zero)
     lift $ poke ((p `plusPtr` 48 :: Ptr Word32)) (zero)
     lift $ poke ((p `plusPtr` 52 :: Ptr Word32)) (zero)
+    lift $ poke ((p `plusPtr` 56 :: Ptr Word32)) (zero)
+    lift $ poke ((p `plusPtr` 60 :: Ptr Word32)) (zero)
     lift $ f
 
 instance (Extendss SwapchainCreateInfo es, PeekChain es) => FromCStruct (SwapchainCreateInfo es) where
@@ -907,14 +907,14 @@ instance (Extendss SwapchainCreateInfo es, PeekChain es) => FromCStruct (Swapcha
     next <- peek @(Ptr ()) ((p `plusPtr` 8 :: Ptr (Ptr ())))
     next' <- peekChain (castPtr next)
     createFlags <- peek @SwapchainCreateFlags ((p `plusPtr` 16 :: Ptr SwapchainCreateFlags))
-    usageFlags <- peek @SwapchainUsageFlags ((p `plusPtr` 20 :: Ptr SwapchainUsageFlags))
-    format <- peek @Int64 ((p `plusPtr` 24 :: Ptr Int64))
-    sampleCount <- peek @Word32 ((p `plusPtr` 32 :: Ptr Word32))
-    width <- peek @Word32 ((p `plusPtr` 36 :: Ptr Word32))
-    height <- peek @Word32 ((p `plusPtr` 40 :: Ptr Word32))
-    faceCount <- peek @Word32 ((p `plusPtr` 44 :: Ptr Word32))
-    arraySize <- peek @Word32 ((p `plusPtr` 48 :: Ptr Word32))
-    mipCount <- peek @Word32 ((p `plusPtr` 52 :: Ptr Word32))
+    usageFlags <- peek @SwapchainUsageFlags ((p `plusPtr` 24 :: Ptr SwapchainUsageFlags))
+    format <- peek @Int64 ((p `plusPtr` 32 :: Ptr Int64))
+    sampleCount <- peek @Word32 ((p `plusPtr` 40 :: Ptr Word32))
+    width <- peek @Word32 ((p `plusPtr` 44 :: Ptr Word32))
+    height <- peek @Word32 ((p `plusPtr` 48 :: Ptr Word32))
+    faceCount <- peek @Word32 ((p `plusPtr` 52 :: Ptr Word32))
+    arraySize <- peek @Word32 ((p `plusPtr` 56 :: Ptr Word32))
+    mipCount <- peek @Word32 ((p `plusPtr` 60 :: Ptr Word32))
     pure $ SwapchainCreateInfo
              next' createFlags usageFlags format sampleCount width height faceCount arraySize mipCount
 

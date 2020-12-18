@@ -1098,21 +1098,21 @@ instance Extensible SpaceLocation where
     | otherwise = Nothing
 
 instance (Extendss SpaceLocation es, PokeChain es) => ToCStruct (SpaceLocation es) where
-  withCStruct x f = allocaBytesAligned 48 8 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 56 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p SpaceLocation{..} f = evalContT $ do
     lift $ poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SPACE_LOCATION)
     next'' <- fmap castPtr . ContT $ withChain (next)
     lift $ poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) next''
     lift $ poke ((p `plusPtr` 16 :: Ptr SpaceLocationFlags)) (locationFlags)
-    lift $ poke ((p `plusPtr` 20 :: Ptr Posef)) (pose)
+    lift $ poke ((p `plusPtr` 24 :: Ptr Posef)) (pose)
     lift $ f
-  cStructSize = 48
+  cStructSize = 56
   cStructAlignment = 8
   pokeZeroCStruct p f = evalContT $ do
     lift $ poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SPACE_LOCATION)
     pNext' <- fmap castPtr . ContT $ withZeroChain @es
     lift $ poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) pNext'
-    lift $ poke ((p `plusPtr` 20 :: Ptr Posef)) (zero)
+    lift $ poke ((p `plusPtr` 24 :: Ptr Posef)) (zero)
     lift $ f
 
 instance (Extendss SpaceLocation es, PeekChain es) => FromCStruct (SpaceLocation es) where
@@ -1120,7 +1120,7 @@ instance (Extendss SpaceLocation es, PeekChain es) => FromCStruct (SpaceLocation
     next <- peek @(Ptr ()) ((p `plusPtr` 8 :: Ptr (Ptr ())))
     next' <- peekChain (castPtr next)
     locationFlags <- peek @SpaceLocationFlags ((p `plusPtr` 16 :: Ptr SpaceLocationFlags))
-    pose <- peekCStruct @Posef ((p `plusPtr` 20 :: Ptr Posef))
+    pose <- peekCStruct @Posef ((p `plusPtr` 24 :: Ptr Posef))
     pure $ SpaceLocation
              next' locationFlags pose
 
@@ -1177,23 +1177,23 @@ instance ToCStruct SpaceVelocity where
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SPACE_VELOCITY)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr SpaceVelocityFlags)) (velocityFlags)
-    poke ((p `plusPtr` 20 :: Ptr Vector3f)) (linearVelocity)
-    poke ((p `plusPtr` 32 :: Ptr Vector3f)) (angularVelocity)
+    poke ((p `plusPtr` 24 :: Ptr Vector3f)) (linearVelocity)
+    poke ((p `plusPtr` 36 :: Ptr Vector3f)) (angularVelocity)
     f
   cStructSize = 48
   cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SPACE_VELOCITY)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
-    poke ((p `plusPtr` 20 :: Ptr Vector3f)) (zero)
-    poke ((p `plusPtr` 32 :: Ptr Vector3f)) (zero)
+    poke ((p `plusPtr` 24 :: Ptr Vector3f)) (zero)
+    poke ((p `plusPtr` 36 :: Ptr Vector3f)) (zero)
     f
 
 instance FromCStruct SpaceVelocity where
   peekCStruct p = do
     velocityFlags <- peek @SpaceVelocityFlags ((p `plusPtr` 16 :: Ptr SpaceVelocityFlags))
-    linearVelocity <- peekCStruct @Vector3f ((p `plusPtr` 20 :: Ptr Vector3f))
-    angularVelocity <- peekCStruct @Vector3f ((p `plusPtr` 32 :: Ptr Vector3f))
+    linearVelocity <- peekCStruct @Vector3f ((p `plusPtr` 24 :: Ptr Vector3f))
+    angularVelocity <- peekCStruct @Vector3f ((p `plusPtr` 36 :: Ptr Vector3f))
     pure $ SpaceVelocity
              velocityFlags linearVelocity angularVelocity
 

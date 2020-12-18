@@ -689,31 +689,31 @@ deriving instance Generic (HandJointLocationEXT)
 deriving instance Show HandJointLocationEXT
 
 instance ToCStruct HandJointLocationEXT where
-  withCStruct x f = allocaBytesAligned 36 4 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 40 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p HandJointLocationEXT{..} f = do
     poke ((p `plusPtr` 0 :: Ptr SpaceLocationFlags)) (locationFlags)
-    poke ((p `plusPtr` 4 :: Ptr Posef)) (pose)
-    poke ((p `plusPtr` 32 :: Ptr CFloat)) (CFloat (radius))
+    poke ((p `plusPtr` 8 :: Ptr Posef)) (pose)
+    poke ((p `plusPtr` 36 :: Ptr CFloat)) (CFloat (radius))
     f
-  cStructSize = 36
-  cStructAlignment = 4
+  cStructSize = 40
+  cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr SpaceLocationFlags)) (zero)
-    poke ((p `plusPtr` 4 :: Ptr Posef)) (zero)
-    poke ((p `plusPtr` 32 :: Ptr CFloat)) (CFloat (zero))
+    poke ((p `plusPtr` 8 :: Ptr Posef)) (zero)
+    poke ((p `plusPtr` 36 :: Ptr CFloat)) (CFloat (zero))
     f
 
 instance FromCStruct HandJointLocationEXT where
   peekCStruct p = do
     locationFlags <- peek @SpaceLocationFlags ((p `plusPtr` 0 :: Ptr SpaceLocationFlags))
-    pose <- peekCStruct @Posef ((p `plusPtr` 4 :: Ptr Posef))
-    radius <- peek @CFloat ((p `plusPtr` 32 :: Ptr CFloat))
+    pose <- peekCStruct @Posef ((p `plusPtr` 8 :: Ptr Posef))
+    radius <- peek @CFloat ((p `plusPtr` 36 :: Ptr CFloat))
     pure $ HandJointLocationEXT
              locationFlags pose (coerce @CFloat @Float radius)
 
 instance Storable HandJointLocationEXT where
-  sizeOf ~_ = 36
-  alignment ~_ = 4
+  sizeOf ~_ = 40
+  alignment ~_ = 8
   peek = peekCStruct
   poke ptr poked = pokeCStruct ptr poked (pure ())
 
@@ -772,31 +772,31 @@ deriving instance Generic (HandJointVelocityEXT)
 deriving instance Show HandJointVelocityEXT
 
 instance ToCStruct HandJointVelocityEXT where
-  withCStruct x f = allocaBytesAligned 28 4 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 32 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p HandJointVelocityEXT{..} f = do
     poke ((p `plusPtr` 0 :: Ptr SpaceVelocityFlags)) (velocityFlags)
-    poke ((p `plusPtr` 4 :: Ptr Vector3f)) (linearVelocity)
-    poke ((p `plusPtr` 16 :: Ptr Vector3f)) (angularVelocity)
+    poke ((p `plusPtr` 8 :: Ptr Vector3f)) (linearVelocity)
+    poke ((p `plusPtr` 20 :: Ptr Vector3f)) (angularVelocity)
     f
-  cStructSize = 28
-  cStructAlignment = 4
+  cStructSize = 32
+  cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr SpaceVelocityFlags)) (zero)
-    poke ((p `plusPtr` 4 :: Ptr Vector3f)) (zero)
-    poke ((p `plusPtr` 16 :: Ptr Vector3f)) (zero)
+    poke ((p `plusPtr` 8 :: Ptr Vector3f)) (zero)
+    poke ((p `plusPtr` 20 :: Ptr Vector3f)) (zero)
     f
 
 instance FromCStruct HandJointVelocityEXT where
   peekCStruct p = do
     velocityFlags <- peek @SpaceVelocityFlags ((p `plusPtr` 0 :: Ptr SpaceVelocityFlags))
-    linearVelocity <- peekCStruct @Vector3f ((p `plusPtr` 4 :: Ptr Vector3f))
-    angularVelocity <- peekCStruct @Vector3f ((p `plusPtr` 16 :: Ptr Vector3f))
+    linearVelocity <- peekCStruct @Vector3f ((p `plusPtr` 8 :: Ptr Vector3f))
+    angularVelocity <- peekCStruct @Vector3f ((p `plusPtr` 20 :: Ptr Vector3f))
     pure $ HandJointVelocityEXT
              velocityFlags linearVelocity angularVelocity
 
 instance Storable HandJointVelocityEXT where
-  sizeOf ~_ = 28
-  alignment ~_ = 4
+  sizeOf ~_ = 32
+  alignment ~_ = 8
   peek = peekCStruct
   poke ptr poked = pokeCStruct ptr poked (pure ())
 

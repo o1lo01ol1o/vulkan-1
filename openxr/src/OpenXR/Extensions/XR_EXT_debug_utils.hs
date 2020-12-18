@@ -1112,36 +1112,36 @@ deriving instance Generic (DebugUtilsMessengerCreateInfoEXT)
 deriving instance Show DebugUtilsMessengerCreateInfoEXT
 
 instance ToCStruct DebugUtilsMessengerCreateInfoEXT where
-  withCStruct x f = allocaBytesAligned 40 8 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 48 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p DebugUtilsMessengerCreateInfoEXT{..} f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr DebugUtilsMessageSeverityFlagsEXT)) (messageSeverities)
-    poke ((p `plusPtr` 20 :: Ptr DebugUtilsMessageTypeFlagsEXT)) (messageTypes)
-    poke ((p `plusPtr` 24 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT)) (userCallback)
-    poke ((p `plusPtr` 32 :: Ptr (Ptr ()))) (userData)
+    poke ((p `plusPtr` 24 :: Ptr DebugUtilsMessageTypeFlagsEXT)) (messageTypes)
+    poke ((p `plusPtr` 32 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT)) (userCallback)
+    poke ((p `plusPtr` 40 :: Ptr (Ptr ()))) (userData)
     f
-  cStructSize = 40
+  cStructSize = 48
   cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr DebugUtilsMessageSeverityFlagsEXT)) (zero)
-    poke ((p `plusPtr` 20 :: Ptr DebugUtilsMessageTypeFlagsEXT)) (zero)
-    poke ((p `plusPtr` 24 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT)) (zero)
+    poke ((p `plusPtr` 24 :: Ptr DebugUtilsMessageTypeFlagsEXT)) (zero)
+    poke ((p `plusPtr` 32 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT)) (zero)
     f
 
 instance FromCStruct DebugUtilsMessengerCreateInfoEXT where
   peekCStruct p = do
     messageSeverities <- peek @DebugUtilsMessageSeverityFlagsEXT ((p `plusPtr` 16 :: Ptr DebugUtilsMessageSeverityFlagsEXT))
-    messageTypes <- peek @DebugUtilsMessageTypeFlagsEXT ((p `plusPtr` 20 :: Ptr DebugUtilsMessageTypeFlagsEXT))
-    userCallback <- peek @PFN_xrDebugUtilsMessengerCallbackEXT ((p `plusPtr` 24 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT))
-    userData <- peek @(Ptr ()) ((p `plusPtr` 32 :: Ptr (Ptr ())))
+    messageTypes <- peek @DebugUtilsMessageTypeFlagsEXT ((p `plusPtr` 24 :: Ptr DebugUtilsMessageTypeFlagsEXT))
+    userCallback <- peek @PFN_xrDebugUtilsMessengerCallbackEXT ((p `plusPtr` 32 :: Ptr PFN_xrDebugUtilsMessengerCallbackEXT))
+    userData <- peek @(Ptr ()) ((p `plusPtr` 40 :: Ptr (Ptr ())))
     pure $ DebugUtilsMessengerCreateInfoEXT
              messageSeverities messageTypes userCallback userData
 
 instance Storable DebugUtilsMessengerCreateInfoEXT where
-  sizeOf ~_ = 40
+  sizeOf ~_ = 48
   alignment ~_ = 8
   peek = peekCStruct
   poke ptr poked = pokeCStruct ptr poked (pure ())

@@ -127,31 +127,31 @@ deriving instance Generic (SessionCreateInfoOverlayEXTX)
 deriving instance Show SessionCreateInfoOverlayEXTX
 
 instance ToCStruct SessionCreateInfoOverlayEXTX where
-  withCStruct x f = allocaBytesAligned 24 8 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 32 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p SessionCreateInfoOverlayEXTX{..} f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SESSION_CREATE_INFO_OVERLAY_EXTX)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr OverlaySessionCreateFlagsEXTX)) (createFlags)
-    poke ((p `plusPtr` 20 :: Ptr Word32)) (sessionLayersPlacement)
+    poke ((p `plusPtr` 24 :: Ptr Word32)) (sessionLayersPlacement)
     f
-  cStructSize = 24
+  cStructSize = 32
   cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_SESSION_CREATE_INFO_OVERLAY_EXTX)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr OverlaySessionCreateFlagsEXTX)) (zero)
-    poke ((p `plusPtr` 20 :: Ptr Word32)) (zero)
+    poke ((p `plusPtr` 24 :: Ptr Word32)) (zero)
     f
 
 instance FromCStruct SessionCreateInfoOverlayEXTX where
   peekCStruct p = do
     createFlags <- peek @OverlaySessionCreateFlagsEXTX ((p `plusPtr` 16 :: Ptr OverlaySessionCreateFlagsEXTX))
-    sessionLayersPlacement <- peek @Word32 ((p `plusPtr` 20 :: Ptr Word32))
+    sessionLayersPlacement <- peek @Word32 ((p `plusPtr` 24 :: Ptr Word32))
     pure $ SessionCreateInfoOverlayEXTX
              createFlags sessionLayersPlacement
 
 instance Storable SessionCreateInfoOverlayEXTX where
-  sizeOf ~_ = 24
+  sizeOf ~_ = 32
   alignment ~_ = 8
   peek = peekCStruct
   poke ptr poked = pokeCStruct ptr poked (pure ())
@@ -238,31 +238,31 @@ instance IsEventData EventDataMainSessionVisibilityChangedEXTX where
   toEventDataBaseHeader EventDataMainSessionVisibilityChangedEXTX{} = EventDataBaseHeader{type' = TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX}
 
 instance ToCStruct EventDataMainSessionVisibilityChangedEXTX where
-  withCStruct x f = allocaBytesAligned 24 8 $ \p -> pokeCStruct p x (f p)
+  withCStruct x f = allocaBytesAligned 32 8 $ \p -> pokeCStruct p x (f p)
   pokeCStruct p EventDataMainSessionVisibilityChangedEXTX{..} f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr Bool32)) (boolToBool32 (visible))
-    poke ((p `plusPtr` 20 :: Ptr OverlayMainSessionFlagsEXTX)) (flags)
+    poke ((p `plusPtr` 24 :: Ptr OverlayMainSessionFlagsEXTX)) (flags)
     f
-  cStructSize = 24
+  cStructSize = 32
   cStructAlignment = 8
   pokeZeroCStruct p f = do
     poke ((p `plusPtr` 0 :: Ptr StructureType)) (TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX)
     poke ((p `plusPtr` 8 :: Ptr (Ptr ()))) (nullPtr)
     poke ((p `plusPtr` 16 :: Ptr Bool32)) (boolToBool32 (zero))
-    poke ((p `plusPtr` 20 :: Ptr OverlayMainSessionFlagsEXTX)) (zero)
+    poke ((p `plusPtr` 24 :: Ptr OverlayMainSessionFlagsEXTX)) (zero)
     f
 
 instance FromCStruct EventDataMainSessionVisibilityChangedEXTX where
   peekCStruct p = do
     visible <- peek @Bool32 ((p `plusPtr` 16 :: Ptr Bool32))
-    flags <- peek @OverlayMainSessionFlagsEXTX ((p `plusPtr` 20 :: Ptr OverlayMainSessionFlagsEXTX))
+    flags <- peek @OverlayMainSessionFlagsEXTX ((p `plusPtr` 24 :: Ptr OverlayMainSessionFlagsEXTX))
     pure $ EventDataMainSessionVisibilityChangedEXTX
              (bool32ToBool visible) flags
 
 instance Storable EventDataMainSessionVisibilityChangedEXTX where
-  sizeOf ~_ = 24
+  sizeOf ~_ = 32
   alignment ~_ = 8
   peek = peekCStruct
   poke ptr poked = pokeCStruct ptr poked (pure ())

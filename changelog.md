@@ -1,6 +1,7 @@
 # Change Log
 
 ## WIP
+- Expose `resultString :: Result -> String`
 
 ## [3.10] - 2021-01-09
 - Make zero instance for `TransformMatrixKHR` return identity matrix. See

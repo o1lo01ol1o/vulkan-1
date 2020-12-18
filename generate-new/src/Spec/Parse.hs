@@ -129,11 +129,19 @@ parseSpec bs = do
           sizeMap :: Map.Map CName (Int, Int)
           sizeMap =
             let
+              bitmaskSize = case specFlavor @t of
+                SpecVk -> (4, 4)
+                SpecXr -> (8, 8)
               baseMap =
                 Map.fromList
                   $  bespokeSizes (specFlavor @t)
-                  <> [ (eName, (4, 4)) | Enum {..} <- V.toList specEnums ]
-                  <> [ (n, (4, 4))
+                  <> [ (eName, (4, 4))
+                     | Enum { eType = AnEnum, ..} <- V.toList specEnums
+                     ]
+                  <> [ (eName, bitmaskSize)
+                     | Enum { eType = ABitmask _, ..} <- V.toList specEnums
+                     ]
+                  <> [ (n, bitmaskSize)
                      | Enum { eType = ABitmask n } <- V.toList specEnums
                      ]
                   <> [ (atName, (8, 8)) | Atom {..} <- V.toList specAtoms ]

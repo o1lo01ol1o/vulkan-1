@@ -168,8 +168,8 @@ import OpenXR.Core10.Handles (Session)
 import OpenXR.Core10.Handles (Session(..))
 import OpenXR.Core10.Handles (Session_T)
 import OpenXR.CStruct.Extends (SomeStruct)
-import OpenXR.Core10.Enums.SpaceLocationFlags (SpaceLocationFlags)
-import OpenXR.Core10.Enums.SpaceVelocityFlags (SpaceVelocityFlags)
+import OpenXR.Core10.Enums.SpaceLocationFlagBits (SpaceLocationFlags)
+import OpenXR.Core10.Enums.SpaceVelocityFlagBits (SpaceVelocityFlags)
 import OpenXR.Core10.Handles (Space_T)
 import OpenXR.Core10.Enums.StructureType (StructureType)
 import OpenXR.Core10.FundamentalTypes (Time)
@@ -643,12 +643,12 @@ instance Zero HandJointsLocateInfoEXT where
 -- = Description
 --
 -- If the returned @locationFlags@ has
--- @XR_SPACE_LOCATION_POSITION_VALID_BIT@ set, the returned radius /must/
--- be a positive value.
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_POSITION_VALID_BIT'
+-- set, the returned radius /must/ be a positive value.
 --
 -- If the returned @locationFlags@ has
--- @XR_SPACE_LOCATION_POSITION_VALID_BIT@ unset, the returned radius value
--- is undefined and should be avoided.
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_POSITION_VALID_BIT'
+-- unset, the returned radius value is undefined and should be avoided.
 --
 -- == Valid Usage (Implicit)
 --
@@ -657,7 +657,7 @@ instance Zero HandJointsLocateInfoEXT where
 --
 -- -   #VUID-XrHandJointLocationEXT-locationFlags-parameter#
 --     @locationFlags@ /must/ be a valid combination of
---     <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSpaceLocationFlagBits XrSpaceLocationFlagBits>
+--     'OpenXR.Core10.Enums.SpaceLocationFlagBits.SpaceLocationFlagBits'
 --     values
 --
 -- -   #VUID-XrHandJointLocationEXT-locationFlags-requiredbitmask#
@@ -666,13 +666,13 @@ instance Zero HandJointsLocateInfoEXT where
 -- = See Also
 --
 -- 'HandJointLocationsEXT', 'OpenXR.Core10.Space.Posef',
--- 'OpenXR.Core10.Enums.SpaceLocationFlags.SpaceLocationFlags'
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SpaceLocationFlags'
 data HandJointLocationEXT = HandJointLocationEXT
   { -- | @locationFlags@ is a bitfield, with bit masks defined in
-    -- <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSpaceLocationFlagBits XrSpaceLocationFlagBits>,
-    -- to indicate which members contain valid data. If none of the bits are
-    -- set, no other fields in this structure /should/ be considered to be
-    -- valid or meaningful.
+    -- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SpaceLocationFlagBits', to
+    -- indicate which members contain valid data. If none of the bits are set,
+    -- no other fields in this structure /should/ be considered to be valid or
+    -- meaningful.
     locationFlags :: SpaceLocationFlags
   , -- | @pose@ is an 'OpenXR.Core10.Space.Posef' defining the position and
     -- orientation of the origin of a hand joint within the reference frame of
@@ -733,7 +733,7 @@ instance Zero HandJointLocationEXT where
 --
 -- -   #VUID-XrHandJointVelocityEXT-velocityFlags-parameter#
 --     @velocityFlags@ /must/ be a valid combination of
---     <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSpaceVelocityFlagBits XrSpaceVelocityFlagBits>
+--     'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SpaceVelocityFlagBits'
 --     values
 --
 -- -   #VUID-XrHandJointVelocityEXT-velocityFlags-requiredbitmask#
@@ -742,14 +742,14 @@ instance Zero HandJointLocationEXT where
 -- = See Also
 --
 -- 'HandJointVelocitiesEXT',
--- 'OpenXR.Core10.Enums.SpaceVelocityFlags.SpaceVelocityFlags',
+-- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SpaceVelocityFlags',
 -- 'OpenXR.Core10.Space.Vector3f'
 data HandJointVelocityEXT = HandJointVelocityEXT
   { -- | @velocityFlags@ is a bitfield, with bit masks defined in
-    -- <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSpaceVelocityFlagBits XrSpaceVelocityFlagBits>,
-    -- to indicate which members contain valid data. If none of the bits are
-    -- set, no other fields in this structure /should/ be considered to be
-    -- valid or meaningful.
+    -- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SpaceVelocityFlagBits', to
+    -- indicate which members contain valid data. If none of the bits are set,
+    -- no other fields in this structure /should/ be considered to be valid or
+    -- meaningful.
     velocityFlags :: SpaceVelocityFlags
   , -- | @linearVelocity@ is the relative linear velocity of the hand joint with
     -- respect to and expressed in the reference frame of the corresponding
@@ -833,17 +833,24 @@ instance Zero HandJointVelocityEXT where
 -- may be indexed by the 'HandJointEXT' enum.
 --
 -- If the returned @isActive@ is true, the runtime /must/ return all joint
--- locations with both @XR_SPACE_LOCATION_POSITION_VALID_BIT@ and
--- @XR_SPACE_LOCATION_ORIENTATION_VALID_BIT@ set. Although, in this case,
--- some joint space locations /may/ be untracked (i.e.
--- @XR_SPACE_LOCATION_POSITION_TRACKED_BIT@ or
--- @XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT@ is unset).
+-- locations with both
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_POSITION_VALID_BIT'
+-- and
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_ORIENTATION_VALID_BIT'
+-- set. Although, in this case, some joint space locations /may/ be
+-- untracked (i.e.
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_POSITION_TRACKED_BIT'
+-- or
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_ORIENTATION_TRACKED_BIT'
+-- is unset).
 --
 -- If the returned @isActive@ is false, it indicates the hand tracker did
 -- not detect the hand input or the application lost input focus. In this
 -- case, the runtime /must/ return all @jointLocations@ with neither
--- @XR_SPACE_LOCATION_POSITION_VALID_BIT@ nor
--- @XR_SPACE_LOCATION_ORIENTATION_VALID_BIT@ set.
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_POSITION_VALID_BIT'
+-- nor
+-- 'OpenXR.Core10.Enums.SpaceLocationFlagBits.SPACE_LOCATION_ORIENTATION_VALID_BIT'
+-- set.
 --
 -- == Valid Usage (Implicit)
 --
@@ -967,21 +974,26 @@ instance es ~ '[] => Zero (HandJointLocationsEXT es) where
 -- If the returned 'HandJointLocationsEXT'::@isActive@ is false, it
 -- indicates the hand tracker did not detect a hand input or the
 -- application lost input focus. In this case, the runtime /must/ return
--- all @jointVelocities@ with neither @XR_SPACE_VELOCITY_LINEAR_VALID_BIT@
--- nor @XR_SPACE_VELOCITY_ANGULAR_VALID_BIT@ set.
+-- all @jointVelocities@ with neither
+-- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SPACE_VELOCITY_LINEAR_VALID_BIT'
+-- nor
+-- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SPACE_VELOCITY_ANGULAR_VALID_BIT'
+-- set.
 --
 -- If an 'HandJointVelocitiesEXT' structure is chained to
 -- 'HandJointLocationsEXT'::@next@, the returned
 -- 'HandJointLocationsEXT'::@isActive@ is true, and the velocity is
 -- observed or can be calculated by the runtime, the runtime /must/ fill in
 -- the linear velocity of each hand joint within the reference frame of
--- @baseSpace@ and set the @XR_SPACE_VELOCITY_LINEAR_VALID_BIT@. Similarly,
--- if an 'HandJointVelocitiesEXT' structure is chained to
+-- @baseSpace@ and set the
+-- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SPACE_VELOCITY_LINEAR_VALID_BIT'.
+-- Similarly, if an 'HandJointVelocitiesEXT' structure is chained to
 -- 'HandJointLocationsEXT'::@next@, the returned
 -- 'HandJointLocationsEXT'::@isActive@ is true, and the /angular velocity/
 -- is observed or can be calculated by the runtime, the runtime /must/ fill
 -- in the angular velocity of each joint within the reference frame of
--- @baseSpace@ and set the @XR_SPACE_VELOCITY_ANGULAR_VALID_BIT@.
+-- @baseSpace@ and set the
+-- 'OpenXR.Core10.Enums.SpaceVelocityFlagBits.SPACE_VELOCITY_ANGULAR_VALID_BIT'.
 --
 -- == Valid Usage (Implicit)
 --

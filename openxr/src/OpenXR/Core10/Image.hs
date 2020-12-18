@@ -97,13 +97,13 @@ import OpenXR.Core10.Enums.StructureType (StructureType)
 import OpenXR.Core10.Handles (Swapchain)
 import OpenXR.Core10.Handles (Swapchain(..))
 import OpenXR.Core10.Handles (Swapchain(Swapchain))
-import OpenXR.Core10.Enums.SwapchainCreateFlags (SwapchainCreateFlags)
+import OpenXR.Core10.Enums.SwapchainCreateFlagBits (SwapchainCreateFlags)
 import {-# SOURCE #-} OpenXR.Extensions.XR_KHR_D3D11_enable (SwapchainImageD3D11KHR)
 import {-# SOURCE #-} OpenXR.Extensions.XR_KHR_D3D12_enable (SwapchainImageD3D12KHR)
 import {-# SOURCE #-} OpenXR.Extensions.XR_KHR_opengl_es_enable (SwapchainImageOpenGLESKHR)
 import {-# SOURCE #-} OpenXR.Extensions.XR_KHR_opengl_enable (SwapchainImageOpenGLKHR)
 import {-# SOURCE #-} OpenXR.Extensions.XR_KHR_vulkan_enable (SwapchainImageVulkanKHR)
-import OpenXR.Core10.Enums.SwapchainUsageFlags (SwapchainUsageFlags)
+import OpenXR.Core10.Enums.SwapchainUsageFlagBits (SwapchainUsageFlags)
 import OpenXR.Core10.Handles (Swapchain_T)
 import OpenXR.Core10.Enums.Result (Result(SUCCESS))
 import OpenXR.Core10.Enums.StructureType (StructureType(TYPE_SWAPCHAIN_CREATE_INFO))
@@ -508,12 +508,13 @@ foreign import ccall
 -- 'OpenXR.Core10.Enums.Result.ERROR_CALL_ORDER_INVALID' if @index@ has
 -- already been acquired and not yet released with 'releaseSwapchainImage'.
 -- If the @swapchain@ was created with the
--- @XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT@ set in
--- 'SwapchainCreateInfo'::@createFlags@, this function /must/ not have been
--- previously called for this swapchain. The runtime /must/ return
--- 'OpenXR.Core10.Enums.Result.ERROR_CALL_ORDER_INVALID' if a @swapchain@
--- created with the @XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT@ set in
--- 'SwapchainCreateInfo'::@createFlags@ and this function has been
+-- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SWAPCHAIN_CREATE_STATIC_IMAGE_BIT'
+-- set in 'SwapchainCreateInfo'::@createFlags@, this function /must/ not
+-- have been previously called for this swapchain. The runtime /must/
+-- return 'OpenXR.Core10.Enums.Result.ERROR_CALL_ORDER_INVALID' if a
+-- @swapchain@ created with the
+-- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SWAPCHAIN_CREATE_STATIC_IMAGE_BIT'
+-- set in 'SwapchainCreateInfo'::@createFlags@ and this function has been
 -- successfully called previously for this swapchain.
 --
 -- == Valid Usage (Implicit)
@@ -717,9 +718,9 @@ foreign import ccall
 -- = Description
 --
 -- If the @swapchain@ was created with the
--- @XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT@ set in
--- 'SwapchainCreateInfo'::@createFlags@ structure, this function /must/ not
--- have been previously called for this swapchain.
+-- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SWAPCHAIN_CREATE_STATIC_IMAGE_BIT'
+-- set in 'SwapchainCreateInfo'::@createFlags@ structure, this function
+-- /must/ not have been previously called for this swapchain.
 --
 -- The runtime /must/ return
 -- 'OpenXR.Core10.Enums.Result.ERROR_CALL_ORDER_INVALID' if no image has
@@ -789,10 +790,10 @@ releaseSwapchainImage swapchain releaseInfo = liftIO . evalContT $ do
 --
 -- = See Also
 --
--- 'OpenXR.Core10.Enums.SessionCreateFlags.SessionCreateFlags',
+-- 'OpenXR.Core10.Enums.SessionCreateFlagBits.SessionCreateFlags',
 -- 'OpenXR.Core10.Enums.StructureType.StructureType',
--- 'OpenXR.Core10.Enums.SwapchainCreateFlags.SwapchainCreateFlags',
--- 'OpenXR.Core10.Enums.SwapchainUsageFlags.SwapchainUsageFlags',
+-- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SwapchainCreateFlags',
+-- 'OpenXR.Core10.Enums.SwapchainUsageFlagBits.SwapchainUsageFlags',
 -- 'OpenXR.Core10.Device.createSession', 'createSwapchain',
 -- 'OpenXR.Extensions.XR_KHR_android_surface_swapchain.createSwapchainAndroidSurfaceKHR',
 -- 'enumerateSwapchainFormats'
@@ -807,16 +808,16 @@ data SwapchainCreateInfo (es :: [Type]) = SwapchainCreateInfo
     -- 'OpenXR.Extensions.XR_MSFT_secondary_view_configuration.SecondaryViewConfigurationSwapchainCreateInfoMSFT'
     next :: Chain es
   , -- | @createFlags@ is a bitmask of
-    -- <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSwapchainCreateFlagBits XrSwapchainCreateFlagBits>
+    -- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SwapchainCreateFlagBits'
     -- describing additional properties of the swapchain.
     --
     -- #VUID-XrSwapchainCreateInfo-createFlags-parameter# @createFlags@ /must/
     -- be @0@ or a valid combination of
-    -- <https://www.khronos.org/registry/OpenXR/specs/1.0/html/xrspec.html#XrSwapchainCreateFlagBits XrSwapchainCreateFlagBits>
+    -- 'OpenXR.Core10.Enums.SwapchainCreateFlagBits.SwapchainCreateFlagBits'
     -- values
     createFlags :: SwapchainCreateFlags
   , -- | @usageFlags@ is a bitmask of
-    -- 'OpenXR.Extensions.XR_MND_swapchain_usage_input_attachment_bit.SwapchainUsageFlagBits'
+    -- 'OpenXR.Core10.Enums.SwapchainUsageFlagBits.SwapchainUsageFlagBits'
     -- describing the intended usage of the swapchain’s images. The usage flags
     -- define how the corresponding graphics API objects are created. A
     -- mismatch /may/ result in swapchain images that do not support the
@@ -824,7 +825,7 @@ data SwapchainCreateInfo (es :: [Type]) = SwapchainCreateInfo
     --
     -- #VUID-XrSwapchainCreateInfo-usageFlags-parameter# @usageFlags@ /must/ be
     -- @0@ or a valid combination of
-    -- 'OpenXR.Extensions.XR_MND_swapchain_usage_input_attachment_bit.SwapchainUsageFlagBits'
+    -- 'OpenXR.Core10.Enums.SwapchainUsageFlagBits.SwapchainUsageFlagBits'
     -- values
     usageFlags :: SwapchainUsageFlags
   , -- | @format@ is a graphics API-specific texture format identifier. For

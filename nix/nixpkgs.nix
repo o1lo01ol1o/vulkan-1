@@ -1,8 +1,8 @@
 let
   nixpkgsSrc = builtins.fetchTarball {
     url =
-      "https://github.com/expipiplus1/nixpkgs/archive/3fac5c23fbd06b972f532093d24881f506d257f2.tar.gz"; # refs/heads/joe-vulkan
-    sha256 = "0z23s6fhcfqq2yzmjr7fyhrhyklv4w0ivzxcs9bjl74d2m5rx7yq";
+      "https://github.com/expipiplus1/nixpkgs/archive/6ab954928a3dff2482e7ed7f315b0b0b43007a57.tar.gz"; # refs/heads/joe-vulkan
+    sha256 = "19fr9hzrqpldn85fy0ns71pgs6yzwk4wqhryks299xbzqva9jlay";
   };
 
 in import nixpkgsSrc { }

@@ -2,6 +2,8 @@
 
 ## WIP
 
+- Expose `resultString :: Result -> String`
+
 ## [3.8.1] - 2020-12-08
 - Bump API version to v1.2.164
 
